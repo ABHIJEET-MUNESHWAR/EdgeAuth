@@ -1,14 +1,14 @@
 {
   "info": {
     "name": "EdgeAuth",
-    "description": "GraphQL API for the EdgeAuth stateless edge identity verifier. It verifies EdDSA JWTs and did:key Verifiable Credentials against a trust policy — no database, no session state.\n\nSetup:\n1. Start the server so it also trusts the sample credential's issuer DID:\n   `EA_TRUSTED_ISSUERS={{vcIssuerDid}} cargo run -p edgeauth-node -- serve`\n2. Set the `baseUrl` collection variable (default http://localhost:8080).\n\nThe pre-baked `{{jwt}}` and `{{credential}}` variables are signed by the node's deterministic local key (seed 7) and expire in the year 2100, so they verify out of the box.",
+    "description": "GraphQL API for the EdgeAuth stateless edge identity verifier. It verifies EdDSA JWTs and did:key Verifiable Credentials against a trust policy — no database, no session state.\n\nSetup:\n1. Generate fresh demo fixtures locally (nothing sensitive is committed to the repo):\n   `cargo run -p edgeauth-node -- mint`\n   This prints a JSON object with `jwt`, `vcIssuerDid` and `credential`. Paste each value into the matching collection variable below.\n2. Start the server so it also trusts the credential's issuer DID:\n   `EA_TRUSTED_ISSUERS=<vcIssuerDid> cargo run -p edgeauth-node -- serve`\n3. Set the `baseUrl` collection variable (default http://localhost:8080).\n\nThe minted fixtures are signed by the node's deterministic local key (seed 7) and expire in the year 2100, so they verify out of the box. They are test-only values and are deliberately not stored in the repository.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:8080", "type": "string" },
-    { "key": "jwt", "value": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsImtpZCI6ImVkZ2VhdXRoLWxvY2FsLTEifQ.eyJpc3MiOiJodHRwczovL2lzc3Vlci5sb2NhbCIsInN1YiI6InVzZXItYWxpY2UiLCJhdWQiOiJlZGdlLWFwaSIsImV4cCI6NDEwMjQ0NDgwMCwibmJmIjowLCJpYXQiOjAsImp0aSI6InBvc3RtYW4tMSIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJyb2xlcyI6WyJyZWFkZXIiXX0.VxEh6yz6wx9AebvGCmYbbR_unO78Pdh1NNJP355GURrQWXrZ5nczaVY_qxUmieDwjWokjE_PLe81wnLT7oYNBQ", "type": "string" },
-    { "key": "vcIssuerDid", "value": "did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX", "type": "string" },
-    { "key": "credential", "value": "{\"id\":\"urn:cred:postman-1\",\"type\":\"KycVerified\",\"issuer\":\"did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX\",\"subject\":{\"id\":\"did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ\",\"claims\":{\"kyc_level\":\"gold\"}},\"issued_at\":0,\"expires_at\":4102444800,\"proof\":{\"type\":\"Ed25519Signature2020\",\"verification_method\":\"did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX\",\"created\":0,\"signature_hex\":\"18be640d37c7781791b1ba2d56bead289f1c7f59ad196c608f98231385c792f84bccc39e9c7bc5e419ea23a0eed164d6dc6464d882d9ceaa7eb66e2c0da83506\"}}", "type": "string" }
+    { "key": "jwt", "value": "", "type": "string" },
+    { "key": "vcIssuerDid", "value": "", "type": "string" },
+    { "key": "credential", "value": "", "type": "string" }
   ],
   "item": [
     {

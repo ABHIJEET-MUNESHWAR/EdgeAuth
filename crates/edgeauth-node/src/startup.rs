@@ -163,7 +163,7 @@ pub fn run_verify(common: &CommonArgs, args: &VerifyArgs) -> anyhow::Result<()> 
         println!("{}", serde_json::to_string_pretty(&outcome)?);
     }
     if args.token.is_none() && args.credential.is_none() {
-        warn!("nothing to verify: pass --token and/or --credential");
+        warn!("no verification input supplied; provide a JWT or a VC to verify (see --help)");
     }
     Ok(())
 }

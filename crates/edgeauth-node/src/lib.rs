@@ -8,6 +8,7 @@
 
 pub mod config;
 pub mod demo;
+pub mod mint;
 pub mod startup;
 pub mod telemetry;
 

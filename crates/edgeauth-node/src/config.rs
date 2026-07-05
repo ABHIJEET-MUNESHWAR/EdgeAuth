@@ -22,6 +22,8 @@ pub enum Command {
     Serve(ServeArgs),
     /// Run a self-contained demonstration (mint sample tokens, verify them).
     Demo,
+    /// Mint reproducible demo fixtures (JWT, credential, issuer DID) as JSON.
+    Mint,
     /// Verify a single JWT and/or credential offline and print the outcome.
     Verify(VerifyArgs),
 }
