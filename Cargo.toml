@@ -1,0 +1,98 @@
+# EdgeAuth — serverless / WASM edge identity verifier workspace.
+#
+# A stateless, cold-start-optimized Rust verifier that validates EdDSA (Ed25519)
+# JWT access tokens against a JWKS *and* W3C `did:key` Verifiable Credentials at
+# the network edge. The verification core carries no async runtime, no I/O and no
+# randomness, so it compiles to `wasm32-unknown-unknown` for Cloudflare Workers /
+# serverless deployment, while a native `axum` + GraphQL server offers the same
+# core for container deployment. Dependencies point inward (ports-and-adapters).
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+license = "MIT"
+
+[workspace.dependencies]
+# async runtime (native adapters only — never in the verify core)
+tokio = { version = "1", features = ["full"] }
+tokio-stream = { version = "0.1", features = ["sync"] }
+futures = "0.3"
+async-trait = "0.1"
+
+# serialization (shared — wasm-safe)
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# errors
+thiserror = "1"
+anyhow = "1"
+
+# graphql + web (native server adapter)
+async-graphql = { version = "7", features = ["chrono"] }
+async-graphql-axum = "7"
+axum = { version = "0.8", features = ["macros"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["timeout", "trace"] }
+
+# concurrency
+dashmap = "6"
+parking_lot = "0.12"
+
+# config / cli
+clap = { version = "4", features = ["derive", "env"] }
+dotenvy = "0.15"
+
+# observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
+metrics = "0.23"
+metrics-exporter-prometheus = "0.15"
+
+# crypto — verification-only, wasm-safe. No `rand` feature: keys are built
+# deterministically via `SigningKey::from_bytes`, so the core pulls no getrandom.
+ed25519-dalek = { version = "2", default-features = false, features = ["std"] }
+sha2 = { version = "0.10", default-features = false }
+base64 = { version = "0.22", default-features = false, features = ["alloc"] }
+bs58 = { version = "0.5", default-features = false, features = ["alloc"] }
+hex = { version = "0.4", default-features = false, features = ["alloc"] }
+
+# native http client (resilient JWKS refresh)
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+# time
+chrono = { version = "0.4", features = ["serde"] }
+
+# wasm edge bindings
+wasm-bindgen = "0.2"
+serde-wasm-bindgen = "0.6"
+console_error_panic_hook = "0.1"
+
+# testing / bench
+mockall = "0.13"
+proptest = "1"
+criterion = "0.5"
+
+# internal crates (dependencies point inward)
+edgeauth-types = { path = "crates/edgeauth-types" }
+edgeauth-verifier = { path = "crates/edgeauth-verifier" }
+edgeauth-resilience = { path = "crates/edgeauth-resilience" }
+edgeauth-infra = { path = "crates/edgeauth-infra" }
+edgeauth-api = { path = "crates/edgeauth-api" }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+opt-level = 3
+# `panic = "abort"` shrinks the wasm artifact and the native binary; Cargo
+# ignores it for `test`/`bench` builds, so criterion still unwinds normally.
+panic = "abort"
+strip = true
+
+[profile.bench]
+debug = true
+strip = false
+opt-level = 3

@@ -1,0 +1,18 @@
+[package]
+name = "edgeauth-resilience"
+description = "Reusable resilience primitives: testable clock, timeouts, retry with exponential backoff, circuit breaker, and token-bucket rate limiting."
+version = { workspace = true }
+edition = { workspace = true }
+rust-version = { workspace = true }
+license = { workspace = true }
+
+[dependencies]
+tokio = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+governor = "0.7"
+parking_lot = { workspace = true }
+async-trait = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util"] }

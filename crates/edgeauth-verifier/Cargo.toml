@@ -1,0 +1,23 @@
+[package]
+name = "edgeauth-verifier"
+description = "The stateless, wasm-safe EdgeAuth verification engine: validates EdDSA JWTs against a JWKS and did:key Verifiable Credentials against a trust policy, reporting every check. No async, no I/O."
+version = { workspace = true }
+edition = { workspace = true }
+rust-version = { workspace = true }
+license = { workspace = true }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[dependencies]
+edgeauth-types = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+ed25519-dalek = { workspace = true }
+proptest = { workspace = true }
+criterion = { workspace = true }
+
+[[bench]]
+name = "verify"
+harness = false

@@ -1,0 +1,25 @@
+[package]
+name = "edgeauth-wasm"
+description = "WebAssembly (wasm-bindgen) bindings exposing the EdgeAuth verification core to Cloudflare Workers / serverless edge runtimes as plain string-in / JSON-out functions."
+version = { workspace = true }
+edition = { workspace = true }
+rust-version = { workspace = true }
+license = { workspace = true }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lib]
+# `cdylib` for the wasm artifact; `rlib` so the native workspace build and tests
+# can link the crate too.
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+edgeauth-types = { workspace = true }
+edgeauth-verifier = { workspace = true }
+serde_json = { workspace = true }
+wasm-bindgen = { workspace = true }
+console_error_panic_hook = { workspace = true }
+
+[dev-dependencies]
+ed25519-dalek = { workspace = true }

@@ -1,0 +1,31 @@
+[package]
+name = "edgeauth-infra"
+description = "Native adapters for EdgeAuth: a wall-clock, a JWKS provider (static or resiliently-refreshed over HTTP), a broadcast audit sink, and the EdgeVerifier application service wiring them to the pure verifier."
+version = { workspace = true }
+edition = { workspace = true }
+rust-version = { workspace = true }
+license = { workspace = true }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[dependencies]
+edgeauth-types = { workspace = true }
+edgeauth-verifier = { workspace = true }
+edgeauth-resilience = { workspace = true }
+
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+futures = { workspace = true }
+async-trait = { workspace = true }
+parking_lot = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+metrics = { workspace = true }
+reqwest = { workspace = true }
+
+[dev-dependencies]
+ed25519-dalek = { workspace = true }
+tokio = { workspace = true, features = ["test-util", "macros", "rt-multi-thread"] }
